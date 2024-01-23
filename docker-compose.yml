@@ -1,0 +1,28 @@
+version: '3'
+services:
+  node-app:
+    build: ./node-app
+    
+    ports:
+      - 8080:8080
+    env_file:
+      - ./.env
+    volumes:
+      - ./node-app:/usr/src/app
+    depends_on:
+      - mongodb
+    
+  mongodb:
+    image: mongo:4.2.8
+    
+    
+    environment:
+      - MONGO_INITDB_DATABASE=projet
+      - MONGO_INITDB_ROOT_USERNAME=root
+      - MONGO_INITDB_ROOT_PASSWORD=root_password    
+      
+    volumes:  
+      
+      - ./init-mongo.js:/docker-entrypoint-initdb.d/init-mongo.js:ro
+    ports:
+      - 27017:27017
